@@ -1,3 +1,4 @@
+from cmath import pi
 from Node import Node
 from Pila import Pila
 
@@ -26,10 +27,7 @@ def validaExpresion( formula ):
     else:
         return False
 
-
-
-
-print( validaExpresion( "( x + z / [ y * z) + 7 )" ) )
+# print( validaExpresion( "( x + z / [ y * z) + 7 )" ) )
 
 # Crear una función llamada aritméticaConPilas. La función recibe como parámetro un string.
 # El string va a incluir números y operadores aritméticos. La funcion retorna el resultado
@@ -39,3 +37,39 @@ print( validaExpresion( "( x + z / [ y * z) + 7 )" ) )
 #   10 20 30 40 + + + = 100
 #   5 10 20 + = "No se puede evaluar"
 #   5 10 + + = "No se puede evaluar"  * / - +
+
+def aritmeticaConPilas( formula ):
+    arrSplit = formula.split()
+    pilaNumeros = Pila()
+
+    for x in arrSplit:
+        if x == '+' or x == '-' or x == '*' or  x == '/':
+            if pilaNumeros.longitud() >= 2:
+                num1 = pilaNumeros.peek().caracter
+                pilaNumeros.pop()
+                num2 = pilaNumeros.peek().caracter
+                pilaNumeros.pop()
+                resultado = 0
+                if x == '+':
+                    resultado = num1 + num2
+                if x == '-':
+                    resultado = num2 - num1
+                if x == '*':
+                    resultado = num1 * num2
+                if x == '/':
+                    resultado = num2 / num1
+                nuevoNodo = Node( resultado )
+                pilaNumeros.push( nuevoNodo )
+            else:
+                return "No se puede evaluar la expresion."
+        else:
+            nuevoNodo = Node( int(x) )
+            pilaNumeros.push( nuevoNodo )
+    
+    if pilaNumeros.longitud() == 1:
+        return pilaNumeros.peek().caracter
+    else:
+        return "No se puede evaluar la expresion."
+
+
+print( aritmeticaConPilas( "10 20 30 40 + + -" ) )

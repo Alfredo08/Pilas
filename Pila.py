@@ -23,4 +23,12 @@ class Pila:
         
     def peek( self ):
         return self.top
+
+    def longitud( self ):
+        aux = self.top
+        cont = 0
+        while aux != None:
+            cont += 1
+            aux = aux.next
+        return cont
         
